@@ -14,27 +14,44 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url("02.jpg");
-  background-size: cover;
-  background-position: center;
-  font-family: sans-serif;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
 }
 
+/* Floating background hearts */
+.bg-heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 20px;
+  animation: floatUp 8s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-110vh); }
+}
+
+/* Card */
 .card {
-  background: rgba(255,255,255,0.95);
-  padding: 32px;
-  border-radius: 20px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(15px);
+  padding: 40px;
+  border-radius: 25px;
   text-align: center;
   max-width: 420px;
-  width: 100%;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+  width: 90%;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  color: white;
 }
 
 h1 {
-  font-size: 22px;
-  margin-bottom: 24px;
+  font-size: 24px;
+  margin-bottom: 30px;
 }
 
+/* Buttons */
 .btn-container {
   position: relative;
   width: 280px;
@@ -45,36 +62,47 @@ h1 {
 .btn {
   position: absolute;
   width: 120px;
-  height: 48px;
+  height: 50px;
   border-radius: 30px;
   border: none;
   font-size: 16px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .yes {
   left: 0;
   background: #ff4d6d;
   color: white;
+  box-shadow: 0 5px 15px rgba(255,77,109,0.5);
+}
+
+.yes:hover {
+  transform: scale(1.1);
 }
 
 .no {
   left: 160px;
-  background: #d6d6d6;
+  background: rgba(255,255,255,0.6);
 }
 
 .result {
-  margin-top: 18px;
-  font-size: 20px;
+  margin-top: 20px;
+  font-size: 22px;
   font-weight: bold;
-  color: #ff4d6d;
   display: none;
+  animation: pop 0.5s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 .heart {
   position: fixed;
   pointer-events: none;
-  animation: float 2.8s linear forwards;
+  animation: float 3s ease-out forwards;
 }
 
 @keyframes float {
@@ -90,8 +118,8 @@ h1 {
   <h1>Надтай болзох уу? 💖</h1>
 
   <div class="btn-container">
-    <button class="btn yes" id="yesBtn">Yes</button>
-    <button class="btn no" id="noBtn">No</button>
+    <button class="btn yes" id="yesBtn">Yes 💕</button>
+    <button class="btn no" id="noBtn">No 😅</button>
   </div>
 
   <div class="result" id="result">
@@ -104,38 +132,41 @@ const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const result = document.getElementById("result");
 
-yesBtn.addEventListener("click", () => {
-  document.body.style.background =
-    'linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url("01.jpg")';
-  document.body.style.backgroundSize = "cover";
-  document.body.style.backgroundPosition = "center";
+/* Floating background hearts */
+for (let i = 0; i < 20; i++) {
+  const heart = document.createElement("div");
+  heart.className = "bg-heart";
+  heart.textContent = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+  heart.style.fontSize = (15 + Math.random() * 20) + "px";
+  document.body.appendChild(heart);
+}
 
+yesBtn.addEventListener("click", () => {
   result.style.display = "block";
   createHearts();
 });
 
 function createHearts() {
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 25; i++) {
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.textContent = "❤️";
     heart.style.left = Math.random() * window.innerWidth + "px";
     heart.style.top = window.innerHeight + "px";
+    heart.style.fontSize = (20 + Math.random() * 25) + "px";
     document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 2800);
+    setTimeout(() => heart.remove(), 3000);
   }
 }
 
 function moveNo() {
   const container = document.querySelector(".btn-container");
   const maxX = container.clientWidth - 120;
-  const maxY = container.clientHeight - 48;
-
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
-
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
+  const maxY = container.clientHeight - 50;
+  noBtn.style.left = Math.random() * maxX + "px";
+  noBtn.style.top = Math.random() * maxY + "px";
 }
 
 noBtn.addEventListener("mouseenter", moveNo);
