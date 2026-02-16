@@ -16,7 +16,11 @@ body {
   align-items: center;
   font-family: 'Segoe UI', sans-serif;
   overflow: hidden;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  /* Анхны арын зураг */
+  background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
+              url("02.jpg") no-repeat center center;
+  background-size: cover;
+  transition: background 0.8s ease;
 }
 
 /* Floating background hearts */
@@ -77,9 +81,7 @@ h1 {
   box-shadow: 0 5px 15px rgba(255,77,109,0.5);
 }
 
-.yes:hover {
-  transform: scale(1.1);
-}
+.yes:hover { transform: scale(1.1); }
 
 .no {
   left: 160px;
@@ -143,11 +145,17 @@ for (let i = 0; i < 20; i++) {
   document.body.appendChild(heart);
 }
 
+/* Yes товч дарахад эффект */
 yesBtn.addEventListener("click", () => {
   result.style.display = "block";
   createHearts();
+
+  // Арын зураг өөрчлөх
+  document.body.style.background =
+    'linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("01.jpg") center/cover no-repeat';
 });
 
+/* Floating hearts */
 function createHearts() {
   for (let i = 0; i < 25; i++) {
     const heart = document.createElement("div");
@@ -161,6 +169,7 @@ function createHearts() {
   }
 }
 
+/* No товч зугтах */
 function moveNo() {
   const container = document.querySelector(".btn-container");
   const maxX = container.clientWidth - 120;
@@ -168,7 +177,6 @@ function moveNo() {
   noBtn.style.left = Math.random() * maxX + "px";
   noBtn.style.top = Math.random() * maxY + "px";
 }
-
 noBtn.addEventListener("mouseenter", moveNo);
 </script>
 
